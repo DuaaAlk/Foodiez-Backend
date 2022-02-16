@@ -1,4 +1,5 @@
 const Category = require("../../models/Category");
+const { updateIngredient } = require("./ingredient.controller");
 
 exports.fetchCategories = async (req, res, next) => {
   try {
@@ -20,11 +21,16 @@ exports.createCategory = async (req, res, next) => {
 
 exports.deleteCategory = async (req, res, next) => {
   try {
-    const { category } = req.params;
-    const deletedCategory = await Category.findByIdAndDelete(category);
+    // const { category } = req.params;
+    // console.log(category);
+    // console.log(req.category);
+    // console.log(req.params.categoryId);
+    const deletedCategory = await Category.findByIdAndDelete(
+      req.params.categoryId
+    );
     if (deletedCategory)
       res.status(404).json({
-        msg: "Ingredient deleted succesfully",
+        msg: "Category deleted succesfully",
         payload: deletedCategory,
       });
   } catch (error) {
@@ -34,7 +40,7 @@ exports.deleteCategory = async (req, res, next) => {
 
 exports.updateCategory = async (req, res, next) => {
   try {
-    const { category } = req.body;
+    const category = req.body;
     const { categoryId } = req.params;
     const updatedCategory = await Category.findByIdAndUpdate(
       categoryId,
@@ -42,8 +48,8 @@ exports.updateCategory = async (req, res, next) => {
     );
     if (updatedCategory)
       res.status(404).json({
-        msg: "Ingredient updated succesfully",
-        payload: updatedIngredient,
+        msg: "Category updated succesfully",
+        payload: updatedCategory,
       });
   } catch (error) {
     next(error);
