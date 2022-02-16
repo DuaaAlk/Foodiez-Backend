@@ -1,5 +1,5 @@
 const express = require("express");
-
+const upload = require("../../middleware/multer");
 const {
   fetchCategories,
   createCategory,
@@ -10,8 +10,8 @@ const {
 const router = express.Router();
 
 router.get("", fetchCategories);
-router.post("", createCategory);
+router.post("", upload.single("image"), createCategory);
 router.delete("/:categoryId", deleteCategory);
-router.put("/:categoryId", updateCategory);
+router.put("/:categoryId", upload.single("image"), updateCategory);
 
 module.exports = router;

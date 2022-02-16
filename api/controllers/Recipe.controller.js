@@ -1,4 +1,4 @@
-const Recipe = require("./Recipe");
+const Recipe = require("../../models/Recipe");
 
 exports.fetchListRecipe = async (req, res, next) => {
   try {
@@ -18,7 +18,7 @@ exports.fetchRecipe = async (recipeId, next) => {
   }
 };
 
-exports.CreateRecipe = async (req, res, next) => {
+exports.createRecipe = async (req, res, next) => {
   try {
     if (req.file) {
       req.body.image = `${req.protocol}://${req.get("host")}${req.file.path}`;

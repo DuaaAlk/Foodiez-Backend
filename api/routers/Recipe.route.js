@@ -1,12 +1,12 @@
 const express = require("express");
-const router = express.Router;
-const upload = require("../middleware/multer");
+const router = express.Router();
+const upload = require("../../middleware/multer");
 
 const {
   fetchListRecipe,
   fetchRecipe,
-  CreateRecipe,
-} = require("./Recipe.controller");
+  createRecipe,
+} = require("../controllers/Recipe.controller");
 
 router.param("recipeId", async (req, res, next, recipeId) => {
   const recipe = await fetchRecipe(recipeId, next);
@@ -22,6 +22,6 @@ router.param("recipeId", async (req, res, next, recipeId) => {
 
 router.get("/", fetchListRecipe);
 router.get("/:recipeId", fetchRecipe);
-router.post("/:recipeId", upload.single("image"), CreateRecipe);
+router.post("/:recipeId", upload.single("image"), createRecipe);
 
-moudule.exports = router;
+module.exports = router;
