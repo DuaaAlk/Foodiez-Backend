@@ -7,8 +7,8 @@ const IngredientSchema = new Schema(
       type: String,
       required: true,
     },
-    image: String,
-    description: String,
+    unit: String,
+    quantity: Number,
   },
   {
     timestamps: true,
