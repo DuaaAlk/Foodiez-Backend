@@ -5,7 +5,6 @@ const upload = require("../../middleware/multer");
 const {
   fetchListRecipe,
   fetchRecipe,
-  createRecipe,
 } = require("../controllers/Recipe.controller");
 
 router.param("recipeId", async (req, res, next, recipeId) => {
@@ -22,6 +21,5 @@ router.param("recipeId", async (req, res, next, recipeId) => {
 
 router.get("/", fetchListRecipe);
 router.get("/:recipeId", fetchRecipe);
-router.post("/:recipeId", upload.single("image"), createRecipe);
 
 module.exports = router;

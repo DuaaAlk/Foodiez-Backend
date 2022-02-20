@@ -6,9 +6,11 @@ const CategorySchema = new Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     image: String,
     description: String,
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Reciepe" }],
   },
   {
     timestamps: true,

@@ -12,6 +12,13 @@ exports.fetchCategories = async (req, res, next) => {
 
 exports.createCategory = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/media/${
+        req.file.filename
+      }`;
+      console.log(req.body.image);
+    }
+    console.log(req.body);
     const newCategory = await Category.create(req.body);
     res.json(newCategory);
   } catch (error) {
@@ -51,6 +58,25 @@ exports.updateCategory = async (req, res, next) => {
         msg: "Category updated succesfully",
         payload: updatedCategory,
       });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createRecipe = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}${req.file.path}`;
+
+      const categoryId = req.params.categoryId;
+      req.body = { ...req.body, category: categoryId };
+      const newRecipe = await Recipe.create(req.body);
+      await Category.findOneAndUpdate(
+        { _id: req.params.categoryId },
+        { $push: { recipes: newRecipe._id } }
+      );
+      return res.status(201).json(newRecipe);
+    }
   } catch (error) {
     next(error);
   }
