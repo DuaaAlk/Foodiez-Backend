@@ -17,6 +17,10 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+// app.use(passport.initialize());
+// passport.use(localStrategy);
+// passport.use(jwtStrategy);
 
 //logger middleware
 app.use((req, res, next) => {
