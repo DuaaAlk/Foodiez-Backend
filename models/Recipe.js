@@ -13,4 +13,6 @@ const RecipeSchema = new Schema(
 );
 
 RecipeSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
+
 module.exports = model("Recipe", RecipeSchema);
+
