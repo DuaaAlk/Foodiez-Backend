@@ -5,7 +5,7 @@ const path = require("path");
 //Route import
 const categoryRouter = require("./api/routers/category.router");
 const ingredientRouter = require("./api/routers/ingredient.router");
-const recipeRouter = require("./api/routers/Recipe.route");
+const recipeRouter = require("./api/routers/recipe.route");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 //Routes Use
 app.use("/categories", categoryRouter);
 app.use("/media", express.static(path.join(__dirname, "media")));
-// app.use("/ingredients", ingredientRouter);
+app.use("/ingredients", ingredientRouter);
 app.use("/recipes", recipeRouter);
 
 //Path not found middleware
