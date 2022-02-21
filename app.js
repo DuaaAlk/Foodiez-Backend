@@ -3,6 +3,12 @@ const connectDB = require("./index");
 //Route import
 const categoryRouter = require("./api/routers/category.router");
 const ingredientRouter = require("./api/routers/ingredient.router");
+const recipeRouter = require("./api/routers/Recipe.route");
+// const userRouter = require("./api/routers/User.route");
+
+//to make the Backend accessible from different domains
+const cors = require("cors");
+const path = require("path");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -11,6 +17,10 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+// app.use(passport.initialize());
+// passport.use(localStrategy);
+// passport.use(jwtStrategy);
 
 //logger middleware
 app.use((req, res, next) => {
@@ -20,8 +30,10 @@ app.use((req, res, next) => {
 
 //Routes Use
 app.use("/categories", categoryRouter);
-// app.use("/media", express.static(path.join(__dirname, "media")));
+app.use("/media", express.static(path.join(__dirname, "media")));
 app.use("/ingredients", ingredientRouter);
+app.use("/recipes", recipeRouter);
+// app.use("/users", userRouter);
 
 //Path not found middleware
 app.use((req, res, next) => {

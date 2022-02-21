@@ -34,30 +34,14 @@ exports.createIngredient = async (req, res, next) => {
 
 exports.deleteIngredient = async (req, res, next) => {
   try {
-    const { ingredient } = req.params;
-    const deletedIngredient = await Ingredient.findByIdAndDelete(ingredient);
+    console.log(req.params.ingredientId);
+    const deletedIngredient = await Ingredient.findByIdAndDelete(
+      req.params.ingredientId
+    );
     if (deletedIngredient)
       res.status(404).json({
         msg: "Ingredient deleted succesfully",
         payload: deletedIngredient,
-      });
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updateIngredient = async (req, res, next) => {
-  try {
-    const { ingredient } = req.body;
-    const { ingredientId } = req.params;
-    const updatedIngredient = await Ingredient.findByIdAndUpdate(
-      ingredientId,
-      ingredient
-    );
-    if (updatedIngredient)
-      res.status(404).json({
-        msg: "Ingredient updated succesfully",
-        payload: updatedIngredient,
       });
   } catch (error) {
     next(error);

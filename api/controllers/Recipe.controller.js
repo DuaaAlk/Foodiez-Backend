@@ -1,7 +1,9 @@
 const Category = require("../../models/Category");
 const Recipe = require("../../models/Recipe");
+
 const Ingredient = require("../../models/Ingredient");
 const { populate } = require("../../models/Category");
+
 
 exports.fetchListRecipe = async (req, res, next) => {
   try {
@@ -18,15 +20,17 @@ exports.fetchRecipe = async (recipeId, next) => {
       "ingredient",
       "category",
     ]);
+
     return recipe;
   } catch (error) {
     next(error);
   }
 };
 
-exports.fetchRecipeDetails = async (req, res) => {
-  res.json(req.recipe);
-};
+
+// exports.fetchRecipeDetails = async (req, res) => {
+//   res.json(req.recipe);
+// };
 
 exports.CreateRecipe = async (req, res, next) => {
   try {
@@ -56,3 +60,4 @@ exports.CreateRecipe = async (req, res, next) => {
     next(error);
   }
 };
+
