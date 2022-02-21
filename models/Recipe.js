@@ -4,10 +4,10 @@ const mongooseSlugPlugin = require("mongoose-slug-plugin");
 const RecipeSchema = new Schema(
   {
     name: String,
-    description: String,
+    instructions: String,
     image: [String],
     ingredients: [{ type: Schema.Types.ObjectId, ref: "Ingredient" }],
-    categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
+    category: { type: Schema.Types.ObjectId, ref: "Category" },
   },
   { timestamps: true }
 );
