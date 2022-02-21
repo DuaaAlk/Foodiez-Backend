@@ -9,10 +9,27 @@ exports.fetchCategories = async (req, res, next) => {
   }
 };
 
+exports.fetchSingleCategory = async (categoryId, next) => {
+  try {
+    const category = await Category.findById(categoryId).populate("recipes");
+    return category;
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchCategoryWithRecepies = async (req, res) => {
+  res.json(req.category);
+};
+
 exports.createCategory = async (req, res, next) => {
   try {
-    const newCategory = await Category.create(req.body);
-    res.json(newCategory);
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+      console.log(req.body);
+      const newCategory = await Category.create(req.body);
+      res.json(newCategory);
+    }
   } catch (error) {
     next(error);
   }

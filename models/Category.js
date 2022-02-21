@@ -1,14 +1,17 @@
-const { Schema, model, mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
-const CategorySchema = new Schema(
+const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "missing name field"],
     },
-    image: String,
-    description: String,
+    image: { type: String, required: [true, "missing image"] },
+    description: { type: String, required: [true, "missing description"] },
+    recipes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Recipe", required: false },
+    ],
   },
   {
     timestamps: true,
@@ -16,4 +19,4 @@ const CategorySchema = new Schema(
 );
 CategorySchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
 
-module.exports = model("Category", CategorySchema);
+module.exports = mongoose.model("Category", CategorySchema);

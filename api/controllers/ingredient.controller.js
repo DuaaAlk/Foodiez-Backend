@@ -1,6 +1,6 @@
 const Ingredient = require("../../models/Ingredient");
 
-exports.fetchIngredient = async (req, res, next) => {
+exports.fetchIngredients = async (req, res, next) => {
   try {
     const ingredient = await Ingredient.find();
     res.json(ingredient);
