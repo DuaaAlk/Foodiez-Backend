@@ -1,10 +1,19 @@
 const Category = require("../../models/Category");
-const { updateIngredient } = require("./ingredient.controller");
+const Recipe = require("../../models/Recipe");
 
 exports.fetchCategories = async (req, res, next) => {
   try {
     const categories = await Category.find();
     res.json(categories);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchCategory = async (categoryId, next) => {
+  try {
+    const category = await Category.findById(categoryId);
+    return category;
   } catch (error) {
     next(error);
   }
@@ -65,18 +74,21 @@ exports.updateCategory = async (req, res, next) => {
 
 exports.createRecipe = async (req, res, next) => {
   try {
+    const { categoryId } = req.params;
+    req.body.category = categoryId;
     if (req.file) {
-      req.body.image = `${req.protocol}://${req.get("host")}${req.file.path}`;
-
-      const categoryId = req.params.categoryId;
-      req.body = { ...req.body, category: categoryId };
-      const newRecipe = await Recipe.create(req.body);
-      await Category.findOneAndUpdate(
-        { _id: req.params.categoryId },
-        { $push: { recipes: newRecipe._id } }
-      );
-      return res.status(201).json(newRecipe);
+      req.body.image = `${req.protocol}://${req.get("host")}/media/${
+        req.file.filename
+      }`;
     }
+    const createdRecipe = await Recipe.create(req.body);
+    await Category.findByIdAndUpdate(categoryId, {
+      $push: { recipes: createdRecipe._id },
+    });
+    res.status(201).json({
+      msg: "Recipe is created successfully",
+      payload: createdRecipe,
+    });
   } catch (error) {
     next(error);
   }
