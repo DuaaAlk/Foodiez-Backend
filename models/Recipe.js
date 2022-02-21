@@ -10,5 +10,5 @@ const RecipeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-ProductSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
+RecipeSchema.plugin(mongooseSlugPlugin, { tmpl: "<%=name%>" });
 module.exports = mongoose.model("Recipe", RecipeSchema);

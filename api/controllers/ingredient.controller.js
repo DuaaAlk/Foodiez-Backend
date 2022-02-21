@@ -1,8 +1,18 @@
 const Ingredient = require("../../models/Ingredient");
+const Recipe = require("../../models/Recipe");
 
-exports.fetchIngredient = async (req, res, next) => {
+exports.fetchIngredients = async (req, res, next) => {
   try {
-    const ingredient = await Ingredient.find();
+    const ingredients = await Ingredient.find();
+    res.json(ingredients);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchSingleIngredient = async (req, res, next) => {
+  try {
+    const ingredient = await Ingredient.findById(ingredientId);
     res.json(ingredient);
   } catch (error) {
     next(error);
@@ -12,7 +22,11 @@ exports.fetchIngredient = async (req, res, next) => {
 exports.createIngredient = async (req, res, next) => {
   try {
     const newIngredient = await Ingredient.create(req.body);
-    res.json(newIngredient);
+    await Recipe.findByIdAndUpdate(
+      { _id: req.params.recipe.id },
+      { $push: { ingredients: newIngredient._id } }
+    );
+    return res.json(newIngredient);
   } catch (error) {
     next(error);
   }
